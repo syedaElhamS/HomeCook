@@ -66,8 +66,14 @@ The system ‘Home Cook’ is a Food and Drinks recipe system. The user of this 
 
 ### Pages
 
-* Home: 1-3 sentences describing what the page displays and what a user can do
-* Shopping cart: ...
+* Home: This page contains three search boxes for ingredients, calories and meal type. ‘Create account’ and ‘login’ buttons are also on this page but if the user is already logged in, the ‘My account’ and ‘log out’ button is displayed instead. The user can write down in the search box or select an option from a drop down list or choose to create an account or log in/out.
+* Recipe List: This page contains a list of names for recipes that meets the search criteria of the user. The user can click on the recipe name. The user can save the recipe as well.
+* Recipe: This page displays the recipe along with a picture, its ingredients, calorie amount and preparation time and a saving option. The user can save the recipe.
+* Saved Recipe: This page shows a list of recipes saved by the user. The user can click on the recipe name and go to the recipe page.
+* Create Account: This page displays empty boxes to fill up with users first name, last name and choose a password to create an account. The user can create an account on this page.
+* My Account: This page displays the users information when logged in and a ‘Edit account’ button. Users can go to the ‘Edit account’ and ‘‘Saved Recipe’ page from this page.
+* Edit Account: This page displays all the users information and a save button.Here the user can edit and save their personal information. 
+
 
 ### Entity-Relationship (ER) Diagram
 
