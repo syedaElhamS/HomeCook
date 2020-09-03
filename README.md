@@ -61,7 +61,8 @@ Open the `server` and `client` in separate VSCode workspaces or open the combine
 
 ### Purpose
 
-2-5 sentences describing what the system does
+The system ‘Home Cook’ is a Food and Drinks recipe system. The user of this application can search for a recipe that uses certain ingredients and/or has a certain amount of calories in it. The user can also search by certain type of meal for example : breakfast, fika etc. The application should provide a list of recipes according to the users search criteria. 
+
 
 ### Pages
 
