@@ -8,10 +8,11 @@ var history = require("connect-history-api-fallback");
 
 var usersController = require("./controllers/users");
 var ingredientController = require("./controllers/ingredient");
+var recipesController = require('./controllers/recipe');
 
 // Variables
 var mongoURI =
-  process.env.MONGODB_URI || "mongodb://localhost:27017/FoodRecipeDB";
+  process.env.MONGODB_URI || "mongodb://localhost:27017/HomeCookDB";
 var port = process.env.PORT || 3000;
 
 // Connect to MongoDB
@@ -44,12 +45,13 @@ app.use(cors());
 // Import routes
 app.get("/api", function (req, res) {
   res.json({
-    message: "Welcome to Food Recipe project!",
+    message: "Welcome to Home Cook project!",
   });
 });
 
 app.use(usersController);
 app.use(ingredientController);
+app.use(recipesController);
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use("/api/*", function (req, res) {

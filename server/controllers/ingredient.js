@@ -60,6 +60,17 @@ router.put("/api/ingredients/:id", function (req, res, next) {
     });
 });
 
+router.delete('/api/ingredients', function(req, res, next) {
+    var recipe = new Ingredient(req.body);
+    Recipe.deleteMany({}, function(err, ingredient) {
+        if (err) { return next(err); }
+        if(ingredient == null) {
+            return res.status(404).json({'message': 'Ingerient not found'});
+        }
+        res.json(ingredient);
+        //res.status(204).json(recipe);
+    });
+});
 
 router.delete('/api/ingredients/:id', function (req, res, next) {
     var id = req.params.id;
