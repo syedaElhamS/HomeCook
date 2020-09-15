@@ -38,6 +38,17 @@ router.get("/api/users/:id", function (req, res, next) {
     res.json(user);
   });
 });
+/*
+router.delete('/api/users', function(req, res, next) {
+    User.deleteMany({}, function(err, user) {
+        if (err) { return next(err); }
+        if(user == null) {
+            return res.status(404).json({'message': 'User not found'});
+        }
+        res.json(user);
+    });
+});
+*/
 
 router.delete("/api/users/:id", function (req, res, next) {
   var id = req.params.id;
