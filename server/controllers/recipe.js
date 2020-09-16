@@ -34,7 +34,6 @@ router.put('/api/recipes/:id', function(req, res, next) {
 });
 
 router.delete('/api/recipes', function(req, res, next) {
-    //var recipe = new Recipe(req.body);
     Recipe.deleteMany({}, function(err, recipe) {
         if (err) { return next(err); }
         if(recipe == null) {

@@ -15,6 +15,10 @@ var ingredientSchema = new Schema({
     },
     quantity: {
         type: String
+    },
+    recipes: {
+         type: Schema.Types.ObjectId,
+         ref: 'recipes' 
     }
 });
 

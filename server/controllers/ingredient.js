@@ -2,16 +2,41 @@ var express = require('express');
 var router = express.Router();
 
 var Ingredient = require('../models/ingredient');
+var Recipe = require('../models/recipe');
 
 router.post('/api/ingredients', function (req, res, next) {
     var ingredient = new Ingredient(req.body);
-    ingredient.save(function (err, user) {
+    ingredient.save(function (err, ingredient) {
         if (err) {
             return console.error(err);
         }
         res.status(201).json(ingredient);
     });
 });
+
+//POST /cars/:car_id/drivers (relationship)
+
+router.post('/api/recipes/:id/ingredients', function (req, res, next) {
+    
+    var ingredient = new Ingredient({
+        name: req.body.name,
+        description: req.body.description,
+        category: req.body.category,
+        quantity: req.body.quantity,
+        recipes: req.body.recipes
+   });
+
+    ingredient.save(function (err, ingredient) {
+        if (err) {
+            return console.error(err);
+        }
+        res.status(201).json(ingredient);
+        console.log(req.body);
+        console.log('recipe id is %s', ingredient.recipes._id);
+    });
+
+});
+
 
 router.get('/api/ingredients', function (req, res, next) {
     Ingredient.find(function (err, ingredient) {
@@ -27,6 +52,7 @@ router.get('/api/ingredients', function (req, res, next) {
 
 router.get('/api/ingredients/:id', function (req, res, next) {
     var id = req.params.id;
+    
     Ingredient.findById(id, function (err, ingredient) {
         if (err) {
             return next(err);
@@ -39,6 +65,29 @@ router.get('/api/ingredients/:id', function (req, res, next) {
         res.json(ingredient);
     });
 });
+
+//GET /cars/:car_id/drivers (relationship)
+
+router.get('/api/recipes/:id/ingredients', function (req, res, next) {
+
+    var recipes = Ingredient.recipes;
+    var id = req.params.id;
+    Ingredient.find({ 'recipes' : id })
+                .exec(function (err, ingredient) {
+                    if (err) {
+                        return next(err);
+                    }
+                    if (ingredient === null) {
+                        return res.status(404).json({
+                            'message': 'Ingredient not found'
+                        });
+                    }
+        res.json(ingredient); 
+    });
+    
+
+});
+
 
 router.put("/api/ingredients/:id", function (req, res, next) {
     var id = req.params.id;
@@ -67,7 +116,7 @@ router.delete('/api/ingredients', function(req, res, next) {
         if(ingredient == null) {
             return res.status(404).json({'message': 'Ingerient not found'});
         }
-        res.json(ingredient);
+        res.json(recipe);
         //res.status(204).json(recipe);
     });
 });
