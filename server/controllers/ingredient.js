@@ -17,15 +17,14 @@ router.post('/api/ingredients', function (req, res, next) {
 //POST /cars/:car_id/drivers (relationship)
 
 router.post('/api/recipes/:id/ingredients', function (req, res, next) {
-    
+
     var ingredient = new Ingredient({
         name: req.body.name,
         description: req.body.description,
         category: req.body.category,
         quantity: req.body.quantity,
         recipes: req.body.recipes
-   });
-
+    });
     ingredient.save(function (err, ingredient) {
         if (err) {
             return console.error(err);
@@ -52,7 +51,7 @@ router.get('/api/ingredients', function (req, res, next) {
 
 router.get('/api/ingredients/:id', function (req, res, next) {
     var id = req.params.id;
-    
+
     Ingredient.findById(id, function (err, ingredient) {
         if (err) {
             return next(err);
@@ -72,19 +71,21 @@ router.get('/api/recipes/:id/ingredients', function (req, res, next) {
 
     var recipes = Ingredient.recipes;
     var id = req.params.id;
-    Ingredient.find({ 'recipes' : id })
-                .exec(function (err, ingredient) {
-                    if (err) {
-                        return next(err);
-                    }
-                    if (ingredient === null) {
-                        return res.status(404).json({
-                            'message': 'Ingredient not found'
-                        });
-                    }
-        res.json(ingredient); 
-    });
-    
+    Ingredient.find({
+            'recipes': id
+        })
+        .exec(function (err, ingredient) {
+            if (err) {
+                return next(err);
+            }
+            if (ingredient === null) {
+                return res.status(404).json({
+                    'message': 'Ingredient not found'
+                });
+            }
+            res.json(ingredient);
+        });
+
 
 });
 
@@ -109,17 +110,23 @@ router.put("/api/ingredients/:id", function (req, res, next) {
     });
 });
 
-router.delete('/api/ingredients', function(req, res, next) {
+/*
+router.delete('/api/ingredients', function (req, res, next) {
     var recipe = new Ingredient(req.body);
-    Recipe.deleteMany({}, function(err, ingredient) {
-        if (err) { return next(err); }
-        if(ingredient == null) {
-            return res.status(404).json({'message': 'Ingerient not found'});
+    Recipe.deleteMany({}, function (err, ingredient) {
+        if (err) {
+            return next(err);
+        }
+        if (ingredient == null) {
+            return res.status(404).json({
+                'message': 'Ingerient not found'
+            });
         }
         res.json(recipe);
         //res.status(204).json(recipe);
     });
 });
+*/
 
 router.delete('/api/ingredients/:id', function (req, res, next) {
     var id = req.params.id;
@@ -137,5 +144,22 @@ router.delete('/api/ingredients/:id', function (req, res, next) {
         res.json(ingredient);
     });
 });
+
+
+router.delete("/api/ingredients", function (req, res, next) {
+    Ingredient.deleteMany({}, function (err, ingredient) {
+        if (err) {
+            return next(err);
+        }
+        if (ingredient == null) {
+            return res.status(404).json({
+                message: "Ingerient not found",
+            });
+        }
+        res.json(ingredient);
+        //res.status(204).json(recipe);
+    });
+});
+
 
 module.exports = router;
