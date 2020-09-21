@@ -11,12 +11,43 @@ router.post('/api/recipes', function(req, res, next) {
     });
 });
 
+
 router.get('/api/recipes', function(req, res, next) {
-    Recipe.find(function(err, recipes) {
-        if (err) { return next(err); }
-        res.json({'recipes': recipes });
-    })
+
+    var obj = req.query.sort;
+    //sorted
+    if(obj){
+        Recipe.find({})
+                .sort(obj)
+                .exec(function (err, recipes) {
+                if (err) {
+                    return next(err);
+                }
+                console.log('recipes are');
+                if (recipes === null) {
+                    console.log('recipes are');
+                    return res.status(404).json({
+                        'message': 'Recipe not found'
+                    });
+                }
+            res.json({'recipes': recipes }); 
+        });
+
+    }else{
+        //get all
+        Recipe.find(function(err, recipes) {
+            if (err) { return next(err); }
+            if (recipes === null) {
+                return res.status(404).json({'message': 'Recipe not found!'});
+            }
+            res.json({'recipes': recipes });
+        })
+
+    }    
+    
 });
+
+
 
 router.put('/api/recipes/:id', function(req, res, next) {
     var id = req.params.id;
