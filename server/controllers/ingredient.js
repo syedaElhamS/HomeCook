@@ -27,13 +27,8 @@ router.post('/api/recipes/:id/ingredients', function (req, res, next) {
                 'message': 'Recipe does not exist'
             });
         }else{
-            var ingredient = new Ingredient({
-                name: req.body.name,
-                description: req.body.description,
-                category: req.body.category,
-                quantity: req.body.quantity,
-                recipes: id
-            });
+            var ingredient = new Ingredient(req.body);
+        
             ingredient.save(function (err, ingredient) {
                 if (err) {
                     return console.error(err);
