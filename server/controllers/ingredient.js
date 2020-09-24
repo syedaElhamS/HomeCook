@@ -27,15 +27,26 @@ router.post('/api/recipes/:id/ingredients', function (req, res, next) {
     });
     ingredient.save(function (err, ingredient) {
         if (err) {
-            return console.error(err);
+            return next(err);
         }
-        res.status(201).json(ingredient);
-        console.log(req.body);
-        console.log('recipe id is %s', ingredient.recipes._id);
+        if (recipe === null) {
+            return res.status(404).json({
+                'message': 'Recipe does not exist'
+            });
+        }else{
+            var ingredient = new Ingredient(req.body);
+        
+            ingredient.save(function (err, ingredient) {
+                if (err) {
+                    return console.error(err);
+                }
+                res.status(201).json(ingredient);
+                console.log(req.body);
+            });
+        }
     });
-
+    
 });
-
 
 router.get('/api/ingredients', function (req, res, next) {
     Ingredient.find(function (err, ingredient) {
