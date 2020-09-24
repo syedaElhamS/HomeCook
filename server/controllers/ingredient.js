@@ -28,15 +28,6 @@ router.post("/api/recipes/:id/ingredients", function(req, res, next) {
             });
         } else {
             var ingredient = new Ingredient(req.body);
-            /*
-            var ingredient = new Ingredient({
-                name: req.body.name,
-                description: req.body.description,
-                category: req.body.category,
-                quantity: req.body.quantity,
-                recipes: id,
-            });
-*/
             ingredient.save(function(err, ingredient) {
                 if (err) {
                     return console.error(err);
@@ -79,22 +70,28 @@ router.get("/api/ingredients/:id", function(req, res, next) {
 //GET /cars/:car_id/drivers (relationship)
 
 router.get("/api/recipes/:id/ingredients", function(req, res, next) {
-    var recipes = Ingredient.recipes;
     var id = req.params.id;
-    Ingredient.find({
-        recipes: id,
-    }).exec(function(err, ingredient) {
+    Recipe.findById(id, function(err, recipe) {
         if (err) {
             return next(err);
         }
-        if (ingredient === null) {
-            return res.status(404).json({
-                message: "Ingredient not found",
+        if (recipe === null) {
+            return res.json({
+                message: "Recipe does not exist",
+            });
+        } else {
+            Ingredient.find(function(err, ingredient) {
+                if (err) {
+                    return console.error(err);
+                }
+                res.status(201).json({
+                    ingredients: ingredient,
+                });
             });
         }
-        res.json(ingredient);
     });
 });
+
 
 router.put("/api/ingredients/:id", function(req, res, next) {
     var id = req.params.id;

@@ -1,1118 +1,694 @@
 {
-	"info": {
-		"_postman_id": "69d7f9b0-d80f-4979-8f71-7cb2f0259bb8",
-		"name": "server",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "GET /api",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "c0dece97-9d5f-4997-bce8-3be1d6c3f31e",
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "2931c8b0-378a-4995-9f3e-01b493b3f0bf",
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{host}}/api",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "create a recipe_1",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "b4e11bb6-88ce-4c14-828f-75cbf3158bd6",
-						"exec": [
-							"var jsonData = pm.response.json();\r",
-							"var recipeId = jsonData._id;\r",
-							"pm.environment.set(\"recipe_id\", recipeId);\r",
-							"\r",
-							"pm.test(\"Correct status code\", function() {\r",
-							"    pm.response.to.have.status(201);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Correct recipe response\", function () {\r",
-							"    pm.expect(jsonData.duration).to.eql(35);\r",
-							"    pm.expect(jsonData.name).to.eql(\"Homemade Baked Potato Chips\");\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"type": "text",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"name\": \"Homemade Baked Potato Chips\",\r\n  \"duration\": 35,\r\n  \"instruction\": \" Preheat oven to 230 C (450 F). Line baking sheet with parchment paper. Cut the potatoes in 1/8-inch thick round slices. In a pot of boiling water cook the potato slices for 3-5 minute. Drain well and combine with oil, salt, pepper and spices (garlic, oregano, basil, etc) in a large bowl.Place potato slices on prepared baking sheet in one layer. Bake for about 15 minutes until crisp and golden brown. Gently remove the chips and place on a cooling rack or parchment paper; let them cool for few minutes and they are ready to serve.\"\r\n}\r\n"
-				},
-				"url": {
-					"raw": "{{host}}/api/recipes",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"recipes"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "create an ingredient with recipe_id",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "e5d9290b-ed5d-4c16-b803-c2c8583cdc3b",
-						"exec": [
-							"var jsonData = pm.response.json();",
-							"var ingredientId = jsonData._id;",
-							"pm.environment.set(\"ingredient_id\", ingredientId);",
-							"",
-							"pm.test(\"Correct status code\", function() {",
-							"    pm.response.to.have.status(201);",
-							"});",
-							"",
-							"pm.test(\"Correct ingredient response\",function(){",
-							"    pm.expect(jsonData.name).to.eql(\"oliver oil\");",
-							"})",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"name\" : \"oliver oil\",\n  \"description\" :\"A liquid fat obtained from olives\",\n  \"category\" : \"oils\",\n   \"quantity\" : \"some\",\n   \"recipes\" : \"{{recipe_id}}\"\n}",
-					"options": {
-						"raw": {}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/recipes/{{recipe_id}}/ingredients",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"recipes",
-						"{{recipe_id}}",
-						"ingredients"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get a specific ingredient with recipeID",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "ac1f24ed-a8f3-43af-81c0-a0e8c5d9d75d",
-						"exec": [
-							"pm.test(\"Correct status code\", function(){",
-							"    pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/recipes/{{recipe_id}}/ingredients",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"recipes",
-						"{{recipe_id}}",
-						"ingredients"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get a specific ingredient with recipeID not working",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "631e200f-821e-4ad1-9ea1-7dac4b225a6c",
-						"exec": [
-							"pm.test(\"Correct status code\", function(){",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"/*",
-							"pm.test(\"Correct ingredient response\",function(){",
-							"   var jsonData = pm.response.json();",
-							"   pm.expect(jsonData.name).to.equal(\"potato\");",
-							"})",
-							"*/"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{host}}/api/recipes/{{recipe_id}}/ingredients",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"recipes",
-						"{{recipe_id}}",
-						"ingredients"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get ingredients",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "9b56a4f8-29c7-4905-a018-09862500dec3",
-						"exec": [
-							"pm.test(\"Correct status code\", function() {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{host}}/api/ingredients",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"ingredients"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get all recipes",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "c2950165-2c60-4707-b700-f897dfc8a344",
-						"exec": [
-							"pm.test(\"Correct status code\", function() {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"// TODO: more asssertions ..."
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{host}}/api/recipes",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"recipes"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get recipe by id",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "da645094-2b03-4f4a-a2ab-6fc0ce4863a4",
-						"exec": [
-							"pm.test(\"Correct status code\", function() {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/api/recipes/{{recipe_id}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"recipes",
-						"{{recipe_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "update recipe_1",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "c7eda0f0-33c1-4bed-882a-752c94f6b771",
-						"exec": [
-							"pm.test(\"Correct status code\", function() {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"pm.test(\"Correct recipe response\", function () {\r",
-							"    var jsonData = pm.response.json();\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Accept",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"name\": \"Recipe updated\",\r\n  \"duration\": 35,\r\n  \"instruction\": \" Preheat oven to 230 C (450 F). Line baking sheet with parchment paper. Cut the potatoes in 1/8-inch thick round slices. In a pot of boiling water cook the potato slices for 3-5 minute. Drain well and combine with oil, salt, pepper and spices (garlic, oregano, basil, etc) in a large bowl.Place potato slices on prepared baking sheet in one layer. Bake for about 15 minutes until crisp and golden brown. Gently remove the chips and place on a cooling rack or parchment paper; let them cool for few minutes and they are ready to serve.\"\r\n}\r\n",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/recipes/{{recipe_id}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"recipes",
-						"{{recipe_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete recipes",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "27c4c49e-2032-4f7d-8d72-71ea4be430c4",
-						"exec": [
-							"pm.test(\"Correct status code\", function() {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Accept",
-						"type": "text",
-						"value": "application/json",
-						"disabled": true
-					}
-				],
-				"url": {
-					"raw": "{{host}}/api/recipes",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"recipes"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "create a user",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "cefdcbb0-7269-4af3-a617-5526f42419fc",
-						"exec": [
-							"var jsonData = pm.response.json();",
-							"var userId = jsonData._id;",
-							"pm.environment.set(\"user_id\",userId);",
-							"",
-							"pm.test(\"Correct status code\",function(){",
-							"    pm.response.to.have.status(201);",
-							"});",
-							"",
-							"pm.test(\"Correct user response\",function(){",
-							"    pm.expect(jsonData.username).to.equal(\"Anna\");",
-							"})",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"username\" : \"Anna\",\n  \"mail\" : \"Anna19990@gmail.com\",\n  \"password\" : \"OIEEbeewe\"\n\n}",
-					"options": {
-						"raw": {}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/users",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"users"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "create another user",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "48a86858-805d-4c73-9e78-12071ac3075c",
-						"exec": [
-							"var jsonData = pm.response.json();",
-							"var userId = jsonData._id;",
-							"pm.environment.set(\"user_id\",userId);",
-							"",
-							"pm.test(\"Correct status code\",function(){",
-							"    pm.response.to.have.status(201);",
-							"});",
-							"",
-							"pm.test(\"Correct user response\",function(){",
-							"    pm.expect(jsonData.username).to.equal(\"Julia\");",
-							"})",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\"username\" : \"Julia\",\n  \"mail\" : \"julia1990@gmail.com\",\n  \"password\" : \"OOEEadcddewe\"\n}",
-					"options": {
-						"raw": {}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/users",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"users"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "create a recipe_2",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "3a66723e-9c88-4223-a7a8-3f6205fb3d49",
-						"exec": [
-							"var jsonData = pm.response.json();\r",
-							"var recipeId = jsonData._id;\r",
-							"pm.environment.set(\"recipe_id\", recipeId);\r",
-							"\r",
-							"pm.test(\"Correct status code\", function() {\r",
-							"    pm.response.to.have.status(201);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Correct recipe response\", function () {\r",
-							"    pm.expect(jsonData.duration).to.eql(20);\r",
-							"    pm.expect(jsonData.name).to.eql(\"Cheese Potato Pancakes\");\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"type": "text",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"name\": \"Cheese Potato Pancakes\",\r\n  \"duration\": 20,\r\n  \"instruction\": \"  Use the large holes of the grater to grate cheese and potatoes.Transfer the potatoes into a kitchen towel and squeeze as much liquid as you possible can.Place the potatoes into a large bowl. Add cheeses, onion, garlic powder, flour, salt, pepper and eggs. Stir to combine.Heat oil over medium high heat. Use an ice cream scoop to take equal amounts of potato mixture and add to the pan. Use the back of a spoon to flatten the patties. Cook about 3 or 4 patties at a time.Cook until browned about 4 minutes per side.\"\r\n}\r\n"
-				},
-				"url": {
-					"raw": "{{host}}/api/recipes",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"recipes"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get users",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{host}}/api/users",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"users"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get a specific user",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "c60923fe-f1a5-4976-add7-1adc9aad19d8",
-						"exec": [
-							"pm.test(\"Correct status code\",function(){",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Correct user response\",function(){",
-							"   var jsonData = pm.response.json();",
-							"   pm.expect(jsonData.username).to.equal(\"Julia\");",
-							"})"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/users/{{user_id}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"users",
-						"{{user_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "update a user",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n \"username\" : \"Linda\",\n \"mail\" : \"linda99@gmail.com\",\n \"password\" : \"123resdd\"\n}",
-					"options": {
-						"raw": {}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/users/{{user_id}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"users",
-						"{{user_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "delete a specific user",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "1f60140f-6d3f-4284-860c-66ed3d565773",
-						"exec": [
-							"pm.test(\"Correct status code\",function(){",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Correct user response\",function(){",
-							"   var jsonData = pm.response.json();",
-							"   pm.expect(jsonData.username).to.equal(\"Linda\");",
-							"})"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{host}}/api/users/{{user_id}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"users",
-						"{{user_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "delete all users",
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{host}}/api/ingredients/{{ingredient_id}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"ingredients",
-						"{{ingredient_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "create one ingredient",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "542831cc-fea6-40da-8c1a-e0e673ddfbf9",
-						"exec": [
-							" var jsonData = pm.response.json();",
-							"  var ingredientId = jsonData._id;",
-							"  pm.environment.set(\"ingredient_id\",ingredientId);",
-							"",
-							"pm.test(\"Correct status code\",function(){",
-							"    pm.response.to.have.status(201);",
-							"});",
-							"",
-							"pm.test(\"Correct ingredient response\",function(){",
-							"    pm.expect(jsonData.name).to.equal(\"potato\");",
-							"})",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\n \"name\" : \"potato\",\n  \"description\" :\"an herbaceous perennial plant in the family Solanaceae which is grown for its edible tubers\",\n  \"category\" : \"vegetable\",\n   \"quantity\" : \"some\"\n\n}",
-					"options": {
-						"raw": {}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/ingredients",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"ingredients"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "create another ingredient",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "92e04885-57dd-47a7-a61a-f71a3ceb9aeb",
-						"exec": [
-							" var jsonData = pm.response.json();",
-							"  var ingredientId = jsonData._id;",
-							"  pm.environment.set(\"ingredient_id\",ingredientId);",
-							"",
-							"pm.test(\"Correct status code\",function(){",
-							"    pm.response.to.have.status(201);",
-							"});",
-							"",
-							"pm.test(\"Correct ingredient response\",function(){",
-							"    pm.expect(jsonData.name).to.equal(\"potato\");",
-							"})",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\n \"name\" : \"potato\",\n  \"description\" :\"an herbaceous perennial plant in the family Solanaceae which is grown for its edible tubers\",\n  \"category\" : \"vegetable\",\n   \"quantity\" : \"some\"\n\n}",
-					"options": {
-						"raw": {}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/ingredients",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"ingredients"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get a specific ingredient",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "425240a8-e86d-44d0-9d52-cb965c174a74",
-						"exec": [
-							"pm.test(\"Correct status code\",function(){",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Correct ingredient response\",function(){",
-							"   var jsonData = pm.response.json();",
-							"   pm.expect(jsonData.name).to.equal(\"potato\");",
-							"})"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{host}}/api/ingredients/{{ingredient_id}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"ingredients",
-						"{{ingredient_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get all ingredients",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"url": {
-					"raw": "{{host}}/api/ingredients",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"ingredients"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "update an ingredient",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"name\" : \"chicken\",\n  \"description\" : \"A kind of domesticated bird. It is raised in many places for its meat and eggs\",\n  \"category\" : \"meat\",\n  \"quantity\" :\"some\"\n}",
-					"options": {
-						"raw": {}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/api/ingredients/{{ingredient_id}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"ingredients",
-						"{{ingredient_id}}"
-					]
-				}
-			},
-			"response": []
-		}
-	],
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"id": "e2ab812a-5d60-4f59-805a-017aabd354fd",
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"id": "012211e6-8244-4481-b00f-a3b516c899f5",
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		}
-	],
-	"variable": [
-		{
-			"id": "cd185905-a834-4211-8030-583d17702534",
-			"key": "host",
-			"value": "http://localhost:3000",
-			"type": "string"
-		}
-	],
-	"protocolProfileBehavior": {}
+    "info": {
+        "_postman_id": "de4b577c-ab02-4b8a-b1dd-070a461d18a2",
+        "name": "server",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [{
+            "name": "create a user",
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "id": "2091224a-1e8b-4aeb-b881-9d98f30544cd",
+                    "exec": [
+                        "var jsonData = pm.response.json();",
+                        "var userId = jsonData._id;",
+                        "pm.environment.set(\"user_id\", userId);",
+                        "",
+                        "pm.test(\"Correct status code\", function(){",
+                        "    pm.response.to.have.status(201);",
+                        "});",
+                        "pm.test(\"Correct user username\",function(){",
+                        "    pm.expect(jsonData.username).to.equal(\"Anna\");",
+                        "})"
+                    ],
+                    "type": "text/javascript"
+                }
+            }],
+            "request": {
+                "method": "POST",
+                "header": [{
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n \"username\" :\"Anna\" ,\n \"email\" : \" aa@gmail.com\", \n \"password\" : \"aaa123\"\n}"
+                },
+                "url": {
+                    "raw": "{{host}}/api/users",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "api",
+                        "users"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "create another user",
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "id": "5316d708-6144-42fc-b14a-26bd1f2a5b93",
+                    "exec": [
+                        "var jsonData = pm.response.json();",
+                        "var userId = jsonData._id;",
+                        "pm.environment.set(\"user_id\", userId);",
+                        "",
+                        "pm.test(\"Correct status code\", function(){",
+                        "    pm.response.to.have.status(201);",
+                        "});",
+                        "pm.test(\"Correct user username\",function(){",
+                        "    pm.expect(jsonData.username).to.equal(\"Julia\");",
+                        "})"
+                    ],
+                    "type": "text/javascript"
+                }
+            }],
+            "request": {
+                "method": "POST",
+                "header": [{
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n \"username\" :\"Julia\" ,\n \"email\" : \" bb@gmail.com\", \n \"password\" : \"bbb456\"\n}"
+                },
+                "url": {
+                    "raw": "{{host}}/api/users",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "api",
+                        "users"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "get all users",
+            "request": {
+                "method": "GET",
+                "header": [{
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{host}}/api/users",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "api",
+                        "users"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "delete all users",
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "id": "d8e5acde-5150-4107-8d3f-91e2460aa85d",
+                    "exec": [
+                        "var jsonData = pm.response.json();",
+                        "var recipeId = jsonData._id;",
+                        "pm.environment.set(\"recipe_id\", recipeId);",
+                        "",
+                        "pm.test(\"Correct status code\", function(){",
+                        "    pm.response.to.have.status(200);",
+                        "});",
+                        ""
+                    ],
+                    "type": "text/javascript"
+                }
+            }],
+            "request": {
+                "method": "DELETE",
+                "header": [{
+                        "key": "Accept",
+                        "type": "text",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": ""
+                },
+                "url": {
+                    "raw": "{{host}}/api/recipes",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "api",
+                        "recipes"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "create an ingredient",
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "id": "15be8953-34c3-4459-8c7f-199b91700f2e",
+                    "exec": [
+                        "var jsonData = pm.response.json();",
+                        "var ingredientId = jsonData._id;",
+                        "pm.environment.set(\"ingredient_id\", ingredientId);",
+                        "",
+                        "pm.test(\"Correct status code\", function(){",
+                        "    pm.response.to.have.status(201);",
+                        "});",
+                        "pm.test(\"Correct ingredient name\",function(){",
+                        "    pm.expect(jsonData.name).to.equal(\"oliver oil\");",
+                        "})"
+                    ],
+                    "type": "text/javascript"
+                }
+            }],
+            "request": {
+                "method": "POST",
+                "header": [{
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n\"name\" : \"oliver oil\",\n\"description\" : \"to be added\",\n\"category\" : \"oil\",\n\"quantity\" : \"some\"\n}"
+                },
+                "url": {
+                    "raw": "{{host}}/api/ingredients",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "api",
+                        "ingredients"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "create another ingredient",
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "id": "0abe9767-8e9a-4fdf-ad14-a1f8099450eb",
+                    "exec": [
+                        "var jsonData = pm.response.json();",
+                        "var ingredientId = jsonData._id;",
+                        "pm.environment.set(\"ingredient_id\", ingredientId);",
+                        "",
+                        "pm.test(\"Correct status code\", function(){",
+                        "    pm.response.to.have.status(201);",
+                        "});",
+                        "pm.test(\"Correct ingredient name\",function(){",
+                        "    pm.expect(jsonData.name).to.equal(\"patato\");",
+                        "})"
+                    ],
+                    "type": "text/javascript"
+                }
+            }],
+            "request": {
+                "method": "POST",
+                "header": [{
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n\"name\" : \"patato\",\n\"description\" : \"to be added\",\n\"category\" : \"vegetable\",\n\"quantity\" : \"some\"\n}\n"
+                },
+                "url": {
+                    "raw": "{{host}}/api/ingredients",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "api",
+                        "ingredients"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "get all ingredient",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [{
+                        "key": "Accept",
+                        "type": "text",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": ""
+                },
+                "url": {
+                    "raw": "{{host}}/api/ingredients",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "api",
+                        "ingredients"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "delete all ingredient",
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "id": "19502172-43d8-475e-835b-448458ee08e4",
+                    "exec": [
+                        "var jsonData = pm.response.json();",
+                        "var recipeId = jsonData._id;",
+                        "pm.environment.set(\"recipe_id\", recipeId);",
+                        "",
+                        "pm.test(\"Correct status code\", function(){",
+                        "    pm.response.to.have.status(200);",
+                        "});",
+                        ""
+                    ],
+                    "type": "text/javascript"
+                }
+            }],
+            "request": {
+                "method": "DELETE",
+                "header": [{
+                        "key": "Accept",
+                        "type": "text",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": ""
+                },
+                "url": {
+                    "raw": "{{host}}/api/recipes",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "api",
+                        "recipes"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "create a recipe",
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "id": "74dda014-a839-4958-adc8-3ae2e0b46387",
+                    "exec": [
+                        "var jsonData = pm.response.json();",
+                        "var recipeId = jsonData._id;",
+                        "pm.environment.set(\"recipe_id\", recipeId);",
+                        "",
+                        "pm.test(\"Correct status code\", function(){",
+                        "    pm.response.to.have.status(201);",
+                        "});",
+                        "pm.test(\"Correct recipe name\",function(){",
+                        "    pm.expect(jsonData.name).to.equal(\"fried chicken\");",
+                        "})"
+                    ],
+                    "type": "text/javascript"
+                }
+            }],
+            "request": {
+                "method": "POST",
+                "header": [{
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n\"name\" : \"fried chicken\",\n\"duration\" : 20,\n\"instruction\" : \"to be added\"\n\n}"
+                },
+                "url": {
+                    "raw": "{{host}}/api/recipes",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "api",
+                        "recipes"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "create another recipe Copy",
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "id": "1dc1c780-ebb3-4a69-b732-3b048d67e6b7",
+                    "exec": [
+                        "var jsonData = pm.response.json();",
+                        "var recipeId = jsonData._id;",
+                        "pm.environment.set(\"recipe_id\", recipeId);",
+                        "",
+                        "pm.test(\"Correct status code\", function(){",
+                        "    pm.response.to.have.status(201);",
+                        "});",
+                        "pm.test(\"Correct recipe name\",function(){",
+                        "    pm.expect(jsonData.name).to.equal(\"meatball\");",
+                        "})"
+                    ],
+                    "type": "text/javascript"
+                }
+            }],
+            "request": {
+                "method": "POST",
+                "header": [{
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n\"name\" : \"meatball\",\n\"duration\" : 40,\n\"instruction\" : \"to be added\"\n\n}"
+                },
+                "url": {
+                    "raw": "{{host}}/api/recipes",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "api",
+                        "recipes"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "get one specific recipe",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{host}}/api/recipes/5f6c5c18a06a6f7f9008a1b5",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "api",
+                        "recipes",
+                        "5f6c5c18a06a6f7f9008a1b5"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "get all recipies",
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "id": "78028344-c1b3-44c1-8a5f-1a4c32b9e4ec",
+                    "exec": [
+                        "var jsonData = pm.response.json();",
+                        "var recipeId = jsonData._id;",
+                        "pm.environment.set(\"recipe_id\", recipeId);",
+                        "",
+                        "pm.test(\"Correct status code\", function(){",
+                        "    pm.response.to.have.status(200);",
+                        "});",
+                        ""
+                    ],
+                    "type": "text/javascript"
+                }
+            }],
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [{
+                        "key": "Accept",
+                        "type": "text",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": ""
+                },
+                "url": {
+                    "raw": "{{host}}/api/recipes",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "api",
+                        "recipes"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "delete all recipies ",
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "id": "e5cb9111-35b9-4877-9ef3-c5dd53f8ac9f",
+                    "exec": [
+                        "var jsonData = pm.response.json();",
+                        "var recipeId = jsonData._id;",
+                        "pm.environment.set(\"recipe_id\", recipeId);",
+                        "",
+                        "pm.test(\"Correct status code\", function(){",
+                        "    pm.response.to.have.status(200);",
+                        "});",
+                        ""
+                    ],
+                    "type": "text/javascript"
+                }
+            }],
+            "request": {
+                "method": "DELETE",
+                "header": [{
+                        "key": "Accept",
+                        "type": "text",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": ""
+                },
+                "url": {
+                    "raw": "{{host}}/api/recipes",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "api",
+                        "recipes"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "recipe has ingredient",
+            "request": {
+                "method": "POST",
+                "header": [{
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n\"name\" : \"fried chicken\",\n\"description\" : \"added\",\n\"category\" : \"to be added\",\n\"quantity\" : \"some\",\n\"recipes\" : \"{{recipe_id}}\"\n\n}"
+                },
+                "url": {
+                    "raw": "{{host}}/api/recipes/5f6c936cf5670ca6b56ed178/ingredients",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "api",
+                        "recipes",
+                        "5f6c936cf5670ca6b56ed178",
+                        "ingredients"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "get recipe's ingredient",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [{
+                        "key": "Accept",
+                        "type": "text",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "type": "text",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": ""
+                },
+                "url": {
+                    "raw": "{{host}}/api/recipes/5f6c936cf5670ca6b56ed178/ingredients",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "api",
+                        "recipes",
+                        "5f6c936cf5670ca6b56ed178",
+                        "ingredients"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ],
+    "event": [{
+            "listen": "prerequest",
+            "script": {
+                "id": "e9454efb-49ee-498b-9264-8255f3e6df67",
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "id": "dd2d443f-667e-4a41-a0e2-1203dee2ea38",
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        }
+    ],
+    "variable": [{
+        "id": "cd185905-a834-4211-8030-583d17702534",
+        "key": "host",
+        "value": "http://localhost:3000",
+        "type": "string"
+    }],
+    "protocolProfileBehavior": {}
 }
