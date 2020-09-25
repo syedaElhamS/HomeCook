@@ -45,7 +45,6 @@ router.post("/api/recipes/:id/ingredients", function(req, res, next) {
     });
 });
 
-
 //GET /cars/:car_id/drivers (relationship)
 router.get("/api/recipes/:id/ingredients", function(req, res, next) {
     var id = req.params.id;
@@ -62,15 +61,10 @@ router.get("/api/recipes/:id/ingredients", function(req, res, next) {
                 recipes: id,
             }).exec(function(err, ingredient) {
                 if (err) {
-                    return next(err)
-                };
-                if (ingredient === null) {
-                    return res.status(404).json({
-                        message: "Ingredient does not exist",
-                    });
+                    return next(err);
                 }
                 res.json({
-                    ingredients: ingredient
+                    ingredients: ingredient,
                 });
             });
         }
@@ -102,7 +96,6 @@ router.get("/api/ingredients/:id", function(req, res, next) {
         res.json(ingredient);
     });
 });
-
 
 router.put("/api/ingredients/:id", function(req, res, next) {
     var id = req.params.id;
