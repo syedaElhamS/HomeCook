@@ -1,7 +1,10 @@
 <template>
     <div>
         <p>The {{recipe.name}} recipe takes {{recipe.duration}} min</p>
-        <b-button variant="danger" v-on:click="$emit('del-recipe', recipe._id)">delete</b-button>
+        <p>Directions</p>
+        <p>{{recipe.instruction}} </p>
+        <b-button variant="danger"
+          v-on:click="$emit('del-recipe', recipe._id)">delete</b-button>
     </div>
 </template>
 
@@ -20,6 +23,6 @@ export default {
 
 <style scoped>
 p {
-    background-color: aqua;
+    background-color: white;
 }
 </style>
