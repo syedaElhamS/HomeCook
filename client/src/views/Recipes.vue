@@ -1,14 +1,18 @@
 <template>
     <div>
         <p class="red">{{message}}</p>
-        <a href="#footer">add your own recipe</a>
-        <p>Here are my recipes:</p>
+        <a href="#recipeAdd">add your own recipe</a>
+        <p>all recipes:</p>
         <div v-for="recipe in recipes" v-bind:key="recipe._id">
+            <a href="#recipeCard"><recipe-item/></a>
             <recipe-item v-bind:recipe="recipe" v-on:del-recipe="deleteRecipe"/>
         </div>
-        <footer id="footer">
+        <div id=recipeCard>
+          <p>all recipes:</p>
+        </div>
+        <div id="recipeAdd">
             <recipe-add/>
-        </footer>
+        </div>
     </div>
 </template>
 
@@ -58,20 +62,6 @@ export default {
         .catch(error => {
           console.error(error)
         })
-    },
-    createRecipe() {
-      console.log(this.text)
-      Api.post('/recipes')
-        .then(reponse => {
-          this.recipes.name = this.text
-          console.log(this.text)
-          console.log(this.recipes.name)
-          this.recipes.splice(this.recipes.length, 0, this.recipes)
-        })
-        .catch(error => {
-          console.error(error)
-        })
-    //   Api.post(...)
     }
   }
 }
