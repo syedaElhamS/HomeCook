@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 // import About from './views/About.vue'
 // import Friends from './views/Friends.vue'
 import Recipes from './views/Recipes.vue'
+import RecipeCard from './views/RecipeCard.vue'
 
 Vue.use(Router)
 
@@ -28,6 +29,12 @@ export default new Router({
       component: Friends
     },
     */
+    {
+      path: '/recipes/:id',
+      name: 'recipe-card',
+      component: RecipeCard,
+      props: true
+    },
     {
       path: '/recipes',
       name: 'recipes',
