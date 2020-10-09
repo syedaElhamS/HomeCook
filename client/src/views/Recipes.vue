@@ -95,7 +95,7 @@ export default {
     // Load the real recipes from the server
     Api.get('/recipes')
       .then(response => {
-        console.log(response.data.recipes)
+        console.log(response.data)
         this.recipes = response.data.recipes
       })
       .catch(error => {
@@ -182,6 +182,20 @@ export default {
       this.$nextTick(() => {
         this.show = true
       })
+    },
+    // show recipe with ingredient id
+    getIngredientId() {
+      const id = this.recipe.id
+      if (id != null) {
+        console.log(id)
+        Api.get(`/recipes/${id}/ingredients`, this.ingredient)
+          .then(response => {
+            console.log(response.data)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
     },
     addIngredient() {
       const id = this.recipe.id

@@ -5,40 +5,47 @@ import Home from './views/Home.vue'
 // import Friends from './views/Friends.vue'
 import Recipes from './views/Recipes.vue'
 import RecipeCard from './views/RecipeCard.vue'
+import UserCard from './views/UserCard.vue'
+import Users from './views/Users.vue'
+import Ingredients from './views/Ingredients.vue'
+// import UserAdd from './components/UserAdd.vue'
 
 Vue.use(Router)
 
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home
-    },
-    /*
-    {
-      path: '/about',
-      name: 'about',
-      component: About
-    },
-    {
-      path: '/friends/:id',
-      name: 'friends',
-      component: Friends
-    },
-    */
-    {
-      path: '/recipes/:id',
-      name: 'recipe-card',
-      component: RecipeCard,
-      props: true
-    },
-    {
-      path: '/recipes',
-      name: 'recipes',
-      component: Recipes
-    }
+  routes: [{
+    path: '/',
+    name: 'home',
+    component: Home
+  },
+  {
+    path: '/recipes/:id',
+    name: 'recipe-card',
+    component: RecipeCard,
+    props: true
+  },
+  {
+    path: '/users/:id',
+    name: 'user-card',
+    component: UserCard,
+    props: true
+  },
+  {
+    path: '/recipes',
+    name: 'recipes',
+    component: Recipes
+  },
+  {
+    path: '/users',
+    name: 'users',
+    component: Users
+  },
+  {
+    path: '/ingredients',
+    name: 'ingredients',
+    component: Ingredients
+  }
   ]
 })
