@@ -82,7 +82,7 @@ router.put("/api/users/:id", function (req, res, next) {
       });
     }
     user.username = req.body.username;
-    user.mail = req.body.mai;
+    user.email = req.body.email;
     user.password = req.body.password;
     user.save();
     res.json(user);

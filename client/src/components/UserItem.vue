@@ -1,9 +1,9 @@
 <template>
     <div>
-<p>The user's name is {{user.username}}.</p>
-<p>The user's email address is {{user.email}}.</p>
-<p>The user's password is {{user.password}}.</p>
-        <b-button variant="danger" v-on:click="$emit('del-user', user._id)">delete</b-button>
+      <b-button-close variant="danger"
+          v-on:click="$emit('del-user', user._id)">&times;</b-button-close>
+      <b-button variant="outline-primary" size="sm"
+          router-link :to="'/users/' + user._id">{{user.username}}</b-button>
     </div>
 </template>
 
@@ -12,16 +12,16 @@ export default {
   name: 'user-item',
   props: ['user'],
   methods: {
-    deleteUser() {
-      this.$emit('del-user', this.user._id)
-      console.log('del-user')
-    }
+    // deleteUser() {
+    //   this.$emit('del-user', this.user._id)
+    //   console.log('del-user with id:' + this.user._id)
+    // }
   }
 }
 </script>
 
 <style scoped>
 p {
-  background-color: aqua;
+    background-color: white;
 }
 </style>
