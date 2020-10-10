@@ -3,8 +3,8 @@
     <p>Here are all ingredients:</p>
     <b-form-input v-model="text" placeholder="Enter ingredient name"></b-form-input>
     <b-button variant="danger" v-on:click="createIngredient()">create new ingredient</b-button>
-<div v-for="ingredient in ingredients" v-bind:key="ingredient._id">
-<ingredient-item v-bind:ingredient="ingredient" v-on:del-ingredient="deleteIngredient" />
+    <div v-for="ingredient in ingredients" v-bind:key="ingredient._id">
+      <ingredient-item v-bind:ingredient="ingredient"/>
     </div>
 </div>
 </template>

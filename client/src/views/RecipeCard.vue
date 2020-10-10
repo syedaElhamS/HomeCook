@@ -1,12 +1,13 @@
 <template>
     <div>
-            <p>{{ingredient}}</P>
-<p>{{recipe}}</p>
-            <h2> The recipe name: {{recipe.name}} </h2>
-            <h2> Duration: {{ recipe.duration}} min</h2>
-            <h2> Directions: </h2>
-            <p> {{ recipe.instruction}}</p>
-<ingredient-item v-bind:ingredient="ingredient" />
+      <h2> The {{recipe.name}} </h2>
+      <h5> Duration: {{ recipe.duration}} min</h5>
+      <h5> Directions: </h5>
+      <p> {{ recipe.instruction}}</p>
+      <h2> Ingredients: </h2>
+      <div v-for="ingredient in ingredients" v-bind:key="ingredient._id">
+       <ingredient-item v-bind:ingredient="ingredient" />
+      </div>
     </div>
 </template>
 
@@ -33,7 +34,7 @@ export default {
     Api.get(`/recipes/${this.id}/ingredients`)
       .then(response => {
         console.log(response.data)
-        this.ingredient = response.data
+        this.ingredients = response.data.ingredients
         console.log(this.ingredient)
       })
       .catch(error => {
