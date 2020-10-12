@@ -1,13 +1,13 @@
 <template>
     <div>
         <div>
-  <a href="#userAdd"> Change info </a>
+  <a href="#userAdd"> Change information </a>
             <h2> The user name: </h2>
-            <p> {{user.username}}</p>
+            <div class= "detail"> {{user.username}}</div>
             <h2> The user email address: </h2>
-            <p>  {{ user.email}}</p>
+            <div class= "detail">  {{ user.email}}</div>
             <h2> The user password:  </h2>
-            <p>  {{ user.password}}</p>
+            <div class= "detail"> {{ user.password}}</div>
 <b-button variant="outline-primary" size="sm" v-on:click="updateUser"
           router-link :to="'/users/'">Back</b-button>
 
@@ -16,21 +16,21 @@
           <b-form-input
             id="input-1"
             v-model="user.username"
-            placeholder="Enter a user name"
+            placeholder="Enter a new user name"
           ></b-form-input>
         </b-form-group>
   <b-form-group id="input-group-2" label="Email:" label-for="input-2">
           <b-form-input
             id="input-2"
             v-model="user.email"
-            placeholder="Enter email"
+            placeholder="Enter a new email"
           ></b-form-input>
         </b-form-group>
  <b-form-group id="input-group-3" label="Password:" label-for="input-3">
           <b-form-input
             id="input-3"
             v-model="user.password"
-            placeholder="Enter password"
+            placeholder="Enter a new password"
           ></b-form-input>
         </b-form-group>
             <b-button variant="primary" size="sm" v-on:click="updateUser(id,user)">Save</b-button>
@@ -97,5 +97,12 @@ export default {
 <style scoped>
 p {
     background-color: white;
+}
+@media (max-width: 800px){
+.detail{
+color: blue ;
+font-size: 16pt;
+font-weight: bold
+}
 }
 </style>

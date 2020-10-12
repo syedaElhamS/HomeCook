@@ -2,8 +2,8 @@
   <b-container>
     <p class="red">{{message}}</p>
     <h1>List of all users:</h1>
-    <b-row align-h="center">
-      <b-col cols="12" sm="6" md="4" v-for="user in users" v-bind:key="user._id">
+    <b-row align-h="start">
+      <b-col cols="6" sm="4" md="3" v-for="user in users" v-bind:key="user._id">
         <user-item v-bind:user="user" v-on:del-user="deleteUser"/>
       </b-col>
     </b-row>

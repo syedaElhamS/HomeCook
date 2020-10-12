@@ -7,8 +7,6 @@ import Recipes from './views/Recipes.vue'
 import RecipeCard from './views/RecipeCard.vue'
 import UserCard from './views/UserCard.vue'
 import Users from './views/Users.vue'
-import Ingredients from './views/Ingredients.vue'
-// import UserAdd from './components/UserAdd.vue'
 
 Vue.use(Router)
 
@@ -41,11 +39,6 @@ export default new Router({
     path: '/users',
     name: 'users',
     component: Users
-  },
-  {
-    path: '/ingredients',
-    name: 'ingredients',
-    component: Ingredients
   }
   ]
 })

@@ -3,7 +3,7 @@
       <b-button-close variant="danger"
           v-on:click="$emit('del-user', user._id)">&times;</b-button-close>
       <b-button variant="outline-primary" size="sm"
-          router-link :to="'/users/' + user._id">{{user.username}}</b-button>
+          router-link :to="'/users/' + user._id">user name: {{user.username}}</b-button>
     </div>
 </template>
 
