@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     updateUser(id, user) {
-      console.log(user)
+      // console.log(user)
       this.$emit('update-user', this.user._id)
       Api.put(`/users/${this.id}`, this.user)
         .then(response => {
