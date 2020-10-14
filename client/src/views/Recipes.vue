@@ -1,8 +1,16 @@
 <template>
   <b-container>
     <p class="red">{{message}}</p>
-    <a href="#recipeAdd">add your own recipe</a>
-    <h1>List of all Recipes:</h1>
+    <p class="red" v-if="myerrors.length">
+      <b>Please correct the following error(s):</b>
+      <b-row>
+        <b-col cols="12" v-for="myerror in myerrors" v-bind:key="myerror._id">{{ myerror }}
+        </b-col>
+      </b-row>
+    </p>
+    <a href="#recipeAdd">click here to add your own recipe</a>
+    <h3>List of all Recipes:</h3>
+    <p v-if="!recipes.length">There are no recipes.</p>
     <b-row align-h="center">
       <b-col cols="12" sm="6" md="4" v-for="recipe in recipes" v-bind:key="recipe._id">
         <recipe-item v-bind:recipe="recipe" v-on:del-recipe="deleteRecipe"/>
@@ -10,7 +18,7 @@
     </b-row>
     <b-button variant="danger"
         v-on:click="deleteAllRecipe">delete all recipes !!</b-button>
-    <div id = "recipeAdd">
+    <div id = "recipeAdd" >
       <h3>Add your own Recipe</h3>
       <b-form @submit="onSubmit" @reset="onReset" v-if="show">
         <b-form-group id="input-group-1" label="Recipe Name:" label-for="input-1">
@@ -43,10 +51,10 @@
           ></b-form-textarea>
         </b-form-group>
 
-        <b-button type = "submit" variant="primary">Add recipe</b-button>
-        <b-button type="reset" variant="danger">Reset</b-button>
+        <b-button class="mb-2 mr-sm-2 mb-sm-0" type = "submit" variant="primary">Add recipe</b-button>
+        <b-button class="mb-2 mr-sm-2 mb-sm-0" type="reset" variant="danger">Reset</b-button>
       </b-form>
-
+      <p class="red">{{message}}</p>
       <b-form-group id="input-group-4" label="Ingredient:" label-for="input-4">
         <b-form inline>
           <label class="sr-only" for="inline-form-input-name">Name</label>
@@ -54,7 +62,6 @@
             id="inline-form-input-name"
             class="mb-2 mr-sm-2 mb-sm-0"
             v-model="ingredient.name"
-            required
             placeholder="Name"
           ></b-input>
 
@@ -97,6 +104,7 @@ export default {
       .then(response => {
         console.log(response.data)
         this.recipes = response.data.recipes
+        this.myerrors = []
       })
       .catch(error => {
         this.message = error.message
@@ -113,6 +121,7 @@ export default {
       recipes: [],
       message: '',
       text: '',
+      myerrors: [],
       recipe: {
         name: '',
         duration: '',
@@ -133,6 +142,7 @@ export default {
           this.recipes.splice(index, 1)
         })
         .catch(error => {
+          this.message = error.message
           console.error(error)
         })
     },
@@ -155,6 +165,7 @@ export default {
     },
     onSubmit(evt) {
       evt.preventDefault()
+      console.log('hello')
       Api.post('/recipes', this.recipe)
         .then(response => {
           var recipe = response.data
@@ -162,6 +173,7 @@ export default {
           this.recipe.id = recipe._id
         })
         .catch(error => {
+          this.message = error.message
           console.error(error)
         })
         .then(() => {
@@ -199,7 +211,7 @@ export default {
     },
     addIngredient() {
       const id = this.recipe.id
-      if (id != null) {
+      if (id != null && this.ingredient.name && this.ingredient.quantity) {
         console.log(id)
         Api.post(`/recipes/${id}/ingredients`, this.ingredient)
           .then(response => {
@@ -207,6 +219,7 @@ export default {
             // window.location.reload()
           })
           .catch(error => {
+            this.message = error.message
             console.error(error)
           })
           .then(() => {
@@ -214,6 +227,12 @@ export default {
             this.ingredient.name = null
             this.ingredient.quantity = null
           })
+      } else {
+        if (!this.message) {
+          if (id == null) this.myerrors.push('add a recipe first!!')
+          if (!this.ingredient.name) this.myerrors.push('Ingredient name required')
+          if (!this.ingredient.quantity) this.myerrors.push('Quantity required')
+        }
       }
     }
   }
@@ -221,6 +240,17 @@ export default {
 </script>
 
 <style scoped>
+
+@media (max-width: 768px) {
+  h3 {
+    font-size: 16pt;
+  }
+}
+
+a:hover {
+  background-color: yellow;
+}
+
 .red {
     color: red;
 }

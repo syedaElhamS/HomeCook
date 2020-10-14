@@ -1,9 +1,9 @@
 <template>
     <div>
-      <b-button-close variant="danger"
-          v-on:click="$emit('del-recipe', recipe._id)">&times;</b-button-close>
-      <b-button variant="outline-primary" size="sm"
+      <b-button class="button" variant="outline-primary"
           router-link :to="'/recipes/' + recipe._id">{{recipe.name}}</b-button>
+      <b-button-close class="crossbutton"
+          v-on:click="$emit('del-recipe', recipe._id)">&times;</b-button-close>
     </div>
 </template>
 
@@ -24,4 +24,37 @@ export default {
 p {
     background-color: white;
 }
+@media (min-width: 768px) {
+  .item {
+    color: red;
+    font-size: 16pt;
+    font-weight: bold;
+    /* display: none; */
+  }
+}
+
+  .button {
+    background-color: rgb(231, 195, 195);
+    border: white;
+    color: rgb(129, 36, 51);
+    padding: 2px 2px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 2px 2px;
+    cursor: pointer;
+  }
+  .crossbutton {
+    background-color: white;
+    color: rgb(129, 36, 51);
+    padding: 3px 2px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 2px 2px;
+    cursor: pointer;
+  }
+
 </style>
