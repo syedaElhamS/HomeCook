@@ -1,7 +1,7 @@
 <template>
   <div>
-<b-jumbotron header="Home Cook">
-      <h1 class="home_title"><font face ="Arial black">Welcome!</font></h1>
+<b-jumbotron id= "home_cook" header="Home Cook">
+      <h1 id="home_title" class="home_title"><font face ="Arial black">Welcome!</font></h1>
       <b-button class="btn_message" variant="primary" @click="jump_to_recipes()" >Create a recipe</b-button>
       <b-button class="btn_message" variant="success" @click="jump_to_users()" >Create a user</b-button>
 </b-jumbotron>
@@ -41,4 +41,5 @@ export default {
 .btn_message {
   margin-bottom: 1em;
 }
+#home_cook {background-color:antiquewhite;}
 </style>

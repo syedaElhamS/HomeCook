@@ -2,7 +2,7 @@
     <div>
       <b-button-close variant="danger"
           v-on:click="$emit('del-user', user._id)">&times;</b-button-close>
-      <b-button variant="outline-primary" size="sm"
+      <b-button class ="button" variant="outline-primary" size="sm"
           router-link :to="'/users/' + user._id">user name: {{user.username}}</b-button>
     </div>
 </template>
@@ -23,5 +23,9 @@ export default {
 <style scoped>
 p {
     background-color: white;
+}
+.button {
+background-color:antiquewhite;
+padding: 4px 4px;
 }
 </style>

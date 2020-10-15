@@ -1,17 +1,17 @@
 <template>
     <div>
         <div>
-  <a href="#userAdd"> Change information </a>
-            <h2> The user name: </h2>
+  <a href="#userAdd"> Click here to change information </a>
+            <h3> The user name is: </h3>
             <div class= "detail"> {{user.username}}</div>
-            <h2> The user email address: </h2>
+            <h3> The email address is: </h3>
             <div class= "detail">  {{ user.email}}</div>
-            <h2> The user password:  </h2>
+            <h3> The password is:  </h3>
             <div class= "detail"> {{ user.password}}</div>
 <b-button variant="outline-primary" size="sm" v-on:click="updateUser"
           router-link :to="'/users/'">Back</b-button>
 
-<h3>Update info</h3>
+<h3>Update information</h3>
 <b-form-group id="input-group-1" label="User Name:" label-for="input-1">
           <b-form-input
             id="input-1"
@@ -84,9 +84,7 @@ export default {
           console.error(error)
         })
         .then(() => {
-        // this.user.username = null
-        // this.user.email = null
-        // this.user.password = null
+          window.location.reload()
         })
     }
 
@@ -98,8 +96,12 @@ export default {
 p {
     background-color: white;
 }
-@media (max-width: 800px){
+a:hover {
+background-color: aqua;}
+
+@media (min-width: 768px){
 .detail{
+background-color: antiquewhite;
 color: blue ;
 font-size: 16pt;
 font-weight: bold
