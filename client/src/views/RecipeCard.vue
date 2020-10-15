@@ -13,7 +13,7 @@
       <b-col> {{ recipe.instruction}}</b-col>
     </b-row>
     <b-row >
-      <b-col> Ingredients: </b-col>
+      <b-col><h3> Ingredients: </h3></b-col>
     </b-row>
     <b-row align-h="center">
       <b-col cols="12" v-for="ingredient in ingredients" v-bind:key="ingredient._id">
