@@ -24,14 +24,6 @@ export default {
 p {
     background-color: white;
 }
-@media (min-width: 768px) {
-  .item {
-    color: red;
-    font-size: 16pt;
-    font-weight: bold;
-    /* display: none; */
-  }
-}
 
   .button {
     background-color: rgb(231, 195, 195);
@@ -48,7 +40,7 @@ p {
   .crossbutton {
     background-color: white;
     color: rgb(129, 36, 51);
-    padding: 3px 2px;
+    padding: 2px 2px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
