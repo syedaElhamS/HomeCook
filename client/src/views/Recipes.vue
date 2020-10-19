@@ -1,13 +1,6 @@
 <template>
   <b-container>
     <p class="red">{{message}}</p>
-    <p class="red" v-if="myerrors.length">
-      <b>Please correct the following error(s):</b>
-      <b-row>
-        <b-col cols="12" v-for="myerror in myerrors" v-bind:key="myerror._id">{{ myerror }}
-        </b-col>
-      </b-row>
-    </p>
     <a href="#recipeAdd">click here to add your own recipe</a>
     <h3>List of all Recipes:</h3>
     <p v-if="!recipes.length">There are no recipes.</p>
@@ -51,10 +44,16 @@
           ></b-form-textarea>
         </b-form-group>
 
-        <b-button class="mb-2 mr-sm-2 mb-sm-0" type = "submit" variant="primary">Add recipe</b-button>
+        <b-button class="mb-2 mr-2 mb-sm-0" type = "submit" variant="primary">Add recipe</b-button>
         <b-button class="mb-2 mr-sm-2 mb-sm-0" type="reset" variant="danger">Reset</b-button>
       </b-form>
       <p class="red">{{message}}</p>
+      <p class="red" v-if="myerrors.length">
+      <b-row>
+        <b-col cols="12" v-for="myerror in myerrors" v-bind:key="myerror._id">{{ myerror }}
+        </b-col>
+      </b-row>
+    </p>
       <b-form-group id="input-group-4" label="Ingredient:" label-for="input-4">
         <b-form inline>
           <label class="sr-only" for="inline-form-input-name">Name</label>
@@ -74,7 +73,7 @@
           </b-input-group>
 
           <b-button
-            class="mb-2 mr-sm-2 mb-sm-0"
+            class="mb-2 mr-2 mb-sm-0"
             variant="primary"
             v-on:click="addIngredient">Add ingredient</b-button>
 
@@ -149,8 +148,6 @@ export default {
     deleteAllRecipe() {
       Api.delete('/recipes')
         .then(response => {
-          // console.log(response.data)
-          // window.location.href = window.location.href
           window.location.reload()
         })
         .catch(error => {
@@ -171,6 +168,7 @@ export default {
           var recipe = response.data
           console.log(response.data)
           this.recipe.id = recipe._id
+          this.myerrors = []
         })
         .catch(error => {
           this.message = error.message
@@ -216,6 +214,7 @@ export default {
         Api.post(`/recipes/${id}/ingredients`, this.ingredient)
           .then(response => {
             console.log(response.data)
+            this.myerrors = []
             // window.location.reload()
           })
           .catch(error => {
@@ -230,8 +229,10 @@ export default {
       } else {
         if (!this.message) {
           if (id == null) this.myerrors.push('add a recipe first!!')
-          if (!this.ingredient.name) this.myerrors.push('Ingredient name required')
-          if (!this.ingredient.quantity) this.myerrors.push('Quantity required')
+          else if (!this.ingredient.name) {
+            this.myerrors.push('Ingredient name required')
+            if (!this.ingredient.quantity) this.myerrors.push('Quantity required')
+          }
         }
       }
     }
